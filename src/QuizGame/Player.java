@@ -5,7 +5,7 @@ package QuizGame;
  * @author MATEO
  */
 public class Player {
-    
+
     public String nickname;
 
     public Player(String nickname) {

@@ -11,9 +11,8 @@ public class QuizMain {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("################# Bienvenid@ a Preguntas y Respuesta #################\n");
-        System.out.print("nickname: ");
+        System.out.print("Nickname para la sesión: ");
         String nick = scanner.next();
-        Player player = new Player(nick);
         MainMenu menu = new MainMenu(nick);
 //        Question question = new Question("2+2");
 //        ArrayList<Option> opt = question.getOptions();

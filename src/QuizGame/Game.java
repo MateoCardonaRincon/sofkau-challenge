@@ -9,11 +9,12 @@ import java.util.Scanner;
  */
 public class Game {
 
-    public String accessKey;
-    public static ArrayList<Round> rounds = new ArrayList<>();
+    public static String accessKey;
+    public static int category = 1;
+    public static ArrayList<Category> categories = new ArrayList<>();
 
     public Game(String ak) {
-        this.accessKey = ak;
+        Game.accessKey = ak;
         gameMenu();
     }
 
@@ -22,24 +23,23 @@ public class Game {
 
     public static void gameMenu() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Presiona el número correspondiente seguido de la tecla Enter:");
-        for (int i = 1; i <= 5; i++) {
-            System.out.printf("    %d. Crear preguntas de la ronda %d\n", i, i);
-        }
-        System.out.println("    6. Regresar al menú principal");
+        System.out.println("    Crear preguntas\t\t(1 + enter)");
+        System.out.println("    Regresar al menú principal\t(2 + enter)");
         String menuOption = scanner.next();
 
-        if ("12345".contains(menuOption)) {
-            createRounds(menuOption);
-        } else if ("6".equals(menuOption)) {
+        if ("1".equals(menuOption)) {
+            while (category <= 5) {
+                categories.add(new Category(category));
+                category++;
+            }
+            System.out.println("¡Tu cuestionario ha sido creado! (Acceso: " + accessKey + ")");
+            MainMenu.menu();
+        } else if ("2".equals(menuOption)) {
             MainMenu.menu();
         } else {
             System.out.println("Por favor, ingrese una opción válida");
             gameMenu();
         }
-    }
 
-    private static void createRounds(String nRound) {
-        rounds.add(new Round(Integer.parseInt(nRound)));
     }
 }

@@ -14,17 +14,15 @@ public class Option {
         this.isCorrect = isCorrect;
     }
 
-    private String map(boolean isCorrect) {
-        if (isCorrect){
-            return "Correcta";
-        } else {
-            return "Incorrecta";
-        }
-    }
-
     @Override
     public String toString() {
-        return optionBody + " (" + map(isCorrect) + ")";
+        String rightAnswer;
+        if (isCorrect) {
+            rightAnswer = "Correcta";
+        } else {
+            rightAnswer = "Incorrecta";
+        }
+        return optionBody + " (" + rightAnswer + ")";
     }
 
 }

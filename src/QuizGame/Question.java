@@ -38,7 +38,6 @@ public class Question {
 
     public ArrayList<Option> getOptions() {
         Collections.shuffle(options, new Random());
-//        System.out.println(options.get(0));
         return options;
     }
 

@@ -8,10 +8,11 @@ import java.util.Scanner;
  */
 public final class MainMenu {
 
-    private static final Scanner scanner = new Scanner(System.in);
     private static String nickname;
+    private static final Scanner scanner = new Scanner(System.in);
 
     public MainMenu(String nickname) {
+        MainMenu.nickname = nickname;
         menu();
     }
 
@@ -22,19 +23,13 @@ public final class MainMenu {
         String menuOption = scanner.next();
 
         switch (menuOption) {
-            case "1":
-                createNewGame();
-                break;
-            case "2":
-                playAGame();
-                break;
-            case "3":
+            case "1" -> createNewGame();
+            case "2" -> playAGame();
+            case "3" -> {
                 System.out.println("¡Hasta pronto!");
                 System.exit(0);
-                break;
-            default:
-                menu();
-                break;
+            }
+            default -> menu();
 
         }
     }
@@ -48,7 +43,7 @@ public final class MainMenu {
     private static void playAGame() {
         System.out.println("Ingresa la clave del cuestionario a responder:");
         String accessKey = scanner.next();
-        Record record = new Record(nickname, new Game(accessKey));
+        Record record = new Record(nickname, accessKey);
     }
 
 }
