@@ -1,19 +1,23 @@
 package QuizGame;
 
+//import java.util.ArrayList;
+import java.util.Scanner;
+
 public class QuizMain {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        System.out.println("Running Main");
-//        Player player = new Player("Mate", "mate123");
-//        Option option = new Option("NoSQL", true);
-//        System.out.println(option.isCorrect);
-        Question question = new Question("2 + 2=");
-        System.out.println("question.questionBody: \n" + question.questionBody);
-        System.out.println("question.options: \n" + question.options);
-
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("################# Bienvenid@ a Preguntas y Respuesta #################\n");
+        System.out.print("nickname: ");
+        String nick = scanner.next();
+        Player player = new Player(nick);
+        MainMenu menu = new MainMenu(nick);
+//        Question question = new Question("2+2");
+//        ArrayList<Option> opt = question.getOptions();
+//        System.out.println(opt.get(0));
     }
 
 }

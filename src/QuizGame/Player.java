@@ -5,21 +5,11 @@ package QuizGame;
  * @author MATEO
  */
 public class Player {
-
-    private String password;
+    
     public String nickname;
 
-    public Player(String nickname, String password) {
+    public Player(String nickname) {
         this.nickname = nickname;
-        this.password = password;
-    }
-
-    private String getPassword() {
-        return password;
-    }
-
-    private void setPassword(String password) {
-        this.password = password;
     }
 
     public String getNickname() {

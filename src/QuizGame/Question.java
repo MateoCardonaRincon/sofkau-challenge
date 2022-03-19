@@ -1,7 +1,9 @@
 package QuizGame;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
+import java.util.Random;
 
 /**
  *
@@ -19,12 +21,12 @@ public class Question {
 
     private void setOptions() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Write the correct answer (1/4):");
+        System.out.println("Escribe la respuesta correcta (1/4):");
         String option = scanner.nextLine();
         options.add(new Option(option, true));
 
         for (int i = 2; i <= 4; i++) {
-            System.out.printf("Write an incorrect answer (%d/4):\n", i);
+            System.out.printf("Escribe una respuesta incorrecta (%d/4):\n", i);
             option = scanner.next();
             options.add(new Option(option, false));
         }
@@ -35,7 +37,14 @@ public class Question {
     }
 
     public ArrayList<Option> getOptions() {
+        Collections.shuffle(options, new Random());
+//        System.out.println(options.get(0));
         return options;
+    }
+
+    @Override
+    public String toString() {
+        return "Pregunta: " + questionBody + "\nRespuestas:\n" + options + '}';
     }
 
 }
