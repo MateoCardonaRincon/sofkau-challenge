@@ -9,7 +9,7 @@ import java.util.Scanner;
  */
 public class Category {
 
-    private final ArrayList<Question> questions = new ArrayList<>();
+    private ArrayList<Question> questions = new ArrayList<>();
     private Reward reward;
 
     public Category(int category) {

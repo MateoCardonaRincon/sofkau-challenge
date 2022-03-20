@@ -11,7 +11,7 @@ public final class Game {
 
     private String accessKey;
     private int category;
-    private final ArrayList<Category> categories = new ArrayList<>();
+    private final ArrayList<Category> CATEGORIES = new ArrayList<>();
 
     public Game(String ak) {
         category = 1;
@@ -28,7 +28,7 @@ public final class Game {
 
         if ("1".equals(menuOption)) {
             while (category <= nCategories) {
-                categories.add(new Category(category));
+                CATEGORIES.add(new Category(category));
                 category++;
             }
             System.out.println("¡Tu cuestionario ha sido creado! (Acceso: " + this.accessKey + ")");
@@ -44,6 +44,6 @@ public final class Game {
     }
 
     public ArrayList<Category> getCategories() {
-        return categories;
+        return CATEGORIES;
     }
 }
