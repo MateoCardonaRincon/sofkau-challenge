@@ -1,5 +1,6 @@
 package QuizGame;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -8,47 +9,78 @@ import java.util.Scanner;
  */
 public final class MainMenu {
 
-    private static final Scanner scanner = new Scanner(System.in);
+    private static ArrayList<Game> games = new ArrayList<>();
     private static String nickname;
+    private static final Scanner scanner = new Scanner(System.in);
 
     public MainMenu(String nickname) {
+        MainMenu.nickname = nickname;
         menu();
     }
 
-    public static void menu() {
+    private static Game getGame(String ak) {
+        if (games.size() > 0) {
+            for (Game game : games) {
+                if (game.getAccessKey().equals(ak)) {
+                    return game;
+                }
+            }
+            System.out.println("No hay cuestionarios registrados con esa clave");
+        } else {
+            System.out.println("¡Aún no hay cuestionarios creados!");
+        }
+        return null;
+    }
+
+    private static boolean validateAccessKey(String ak) {
+        return games.stream().noneMatch(game -> (game.getAccessKey().equals(ak)));
+    }
+
+    private static void setGames(Game game) {
+        MainMenu.games.add(game);
+    }
+
+    private static void menu() {
         System.out.println("     Crear un cuestionario\t(1 + enter)\n"
                 + "     Jugar\t\t\t(2 + enter)\n"
-                + "     Salir\t\t\t(3 + enter)");
+                + "     Salir\t\t\t(Cualquier otra tecla + enter)");
         String menuOption = scanner.next();
 
         switch (menuOption) {
-            case "1":
+            case "1" ->
                 createNewGame();
-                break;
-            case "2":
+            case "2" ->
                 playAGame();
-                break;
-            case "3":
+            default -> {
                 System.out.println("¡Hasta pronto!");
                 System.exit(0);
-                break;
-            default:
-                menu();
-                break;
-
+            }
         }
     }
 
     private static void createNewGame() {
-        System.out.println("Escriba una clave de acceso al cuestionario:");
+        System.out.println("Escribe una clave para luego entrar al cuestionario:");
         String accessKey = scanner.next();
-        Game game = new Game(accessKey);
+        if (MainMenu.validateAccessKey(accessKey)) {
+            Game thisGame = new Game(accessKey);
+            if (thisGame.getCategories().size() > 0) {
+                setGames(thisGame);
+            }
+        } else {
+            System.out.println("La contraseña ya está en uso. Por favor usa otra.");
+            createNewGame();
+        }
+        menu();
     }
 
     private static void playAGame() {
         System.out.println("Ingresa la clave del cuestionario a responder:");
         String accessKey = scanner.next();
-        Record record = new Record(nickname, new Game(accessKey));
+        Game thisGame = MainMenu.getGame(accessKey);
+        if (thisGame != null) {
+            Record record = new Record(nickname, thisGame);
+        }
+        menu();
     }
 
 }

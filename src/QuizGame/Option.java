@@ -6,25 +6,25 @@ package QuizGame;
  */
 public class Option {
 
-    public String optionBody;
-    public boolean isCorrect;
+    private final boolean correct;
+    private final String optionBody;
 
-    public Option(String optionBody, boolean isCorrect) {
+    public Option(String optionBody, boolean correct) {
         this.optionBody = optionBody;
-        this.isCorrect = isCorrect;
+        this.correct = correct;
     }
 
-    private String map(boolean isCorrect) {
-        if (isCorrect){
-            return "Correcta";
-        } else {
-            return "Incorrecta";
-        }
+    public String getOptionBody() {
+        return optionBody;
+    }
+
+    public boolean isCorrect() {
+        return correct;
     }
 
     @Override
     public String toString() {
-        return optionBody + " (" + map(isCorrect) + ")";
+        return optionBody;
     }
 
 }

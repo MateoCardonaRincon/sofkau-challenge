@@ -7,39 +7,43 @@ import java.util.Scanner;
  *
  * @author MATEO
  */
-public class Game {
+public final class Game {
 
-    public String accessKey;
-    public static ArrayList<Round> rounds = new ArrayList<>();
+    private String accessKey;
+    private int category;
+    private final ArrayList<Category> categories = new ArrayList<>();
 
     public Game(String ak) {
+        category = 1;
         this.accessKey = ak;
         gameMenu();
     }
 
-    public Game() {
-    }
-
-    public static void gameMenu() {
+    public void gameMenu() {
+        int nCategories = 2;
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Presiona el número correspondiente seguido de la tecla Enter:");
-        for (int i = 1; i <= 5; i++) {
-            System.out.printf("    %d. Crear preguntas de la ronda %d\n", i, i);
-        }
-        System.out.println("    6. Regresar al menú principal");
+        System.out.println("    Crear preguntas\t\t(1 + enter)");
+        System.out.println("    Regresar al menú principal\t(Cualquier otra tecla + enter)");
         String menuOption = scanner.next();
 
-        if ("12345".contains(menuOption)) {
-            createRounds(menuOption);
-        } else if ("6".equals(menuOption)) {
-            MainMenu.menu();
-        } else {
-            System.out.println("Por favor, ingrese una opción válida");
-            gameMenu();
+        if ("1".equals(menuOption)) {
+            while (category <= nCategories) {
+                categories.add(new Category(category));
+                category++;
+            }
+            System.out.println("¡Tu cuestionario ha sido creado! (Acceso: " + this.accessKey + ")");
         }
     }
 
-    private static void createRounds(String nRound) {
-        rounds.add(new Round(Integer.parseInt(nRound)));
+    public String getAccessKey() {
+        return accessKey;
+    }
+
+    public void setAccessKey(String accessKey) {
+        this.accessKey = accessKey;
+    }
+
+    public ArrayList<Category> getCategories() {
+        return categories;
     }
 }
