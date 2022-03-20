@@ -1,9 +1,7 @@
 package QuizGame;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Scanner;
-import java.util.Random;
 
 /**
  *
@@ -11,8 +9,8 @@ import java.util.Random;
  */
 public class Question {
 
-    public String questionBody;
-    public ArrayList<Option> options = new ArrayList<>();
+    private final String questionBody;
+    private final ArrayList<Option> options = new ArrayList<>();
 
     public Question(String questionBody) {
         this.questionBody = questionBody;
@@ -37,13 +35,12 @@ public class Question {
     }
 
     public ArrayList<Option> getOptions() {
-        Collections.shuffle(options, new Random());
         return options;
     }
 
     @Override
     public String toString() {
-        return "Pregunta: " + questionBody + "\nRespuestas:\n" + options + '}';
+        return "Pregunta: " + questionBody + "\nRespuestas:\n" + options;
     }
 
 }

@@ -1,45 +1,70 @@
 package QuizGame;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Random;
 import java.util.Scanner;
 
 /**
  *
  * @author MATEO
  */
-public final class Round {
+public class Round {
 
-    private final Scanner scanner = new Scanner(System.in);
+    private String success;
 
-    private int category = 1;
-    public ArrayList<Question> questions = new ArrayList<>();
-
-    public Round() {
-        System.out.println("Preguntas de categoría " + category + " (Mínimo 5 preguntas)");
-        setQuestions();
+    public Round(int round, Category category) {
+        displayQuestion(round, category);
     }
 
-    protected void setQuestions() {
-        while (true) {
-            System.out.println("Escribe una pregunta de categoría " + category + " (Llevas "
-                    + questions.size() + "):");
-            String questionBody = scanner.next();
-            questions.add(new Question(questionBody));
-            if (questions.size() >= 5) {
-                System.out.println("Llevas " + questions.size() + " preguntas, ¿deseas escribir más?");
-                System.out.println("Continuar escribiendo\t(1 + enter)\nRegresar\t\t(2 + enter) ");
-                String option = scanner.next();
-                if ("2".equals(option)) {
-                    this.category++;
-                    break;
-                } else if ("1".equals(option)) {
-                    setQuestions();
-                } else {
-                    System.out.println("Ingresa una opción válida");
-                    setQuestions();
-                }
+    private void displayQuestion(int round, Category category) {
+        Question thisQuestion = pickQuestion(category);
+        System.out.println("Pregunta " + round + ": " + thisQuestion.getQuestionBody());
+
+        displayOptions(thisQuestion.getOptions());
+    }
+
+    private Question pickQuestion(Category category) {
+        ArrayList<Question> questionList = category.getQuestions();
+        Collections.shuffle(questionList, new Random());
+        return questionList.get(0);
+    }
+
+    private void displayOptions(ArrayList<Option> opt) {
+        Collections.shuffle(opt, new Random());
+        System.out.printf("\t(1 + enter)\t%s\n\t(2 + enter)\t%s\n\t(3 + enter)\t%s\n\t(4 + enter)\t%s\n",
+                opt.get(0).getOptionBody(), opt.get(1).getOptionBody(),
+                opt.get(2).getOptionBody(), opt.get(3).getOptionBody());
+        System.out.println("\t(5 + enter)\tRetirarse con la puntuación ancual");
+
+        pickOption(opt);
+    }
+
+    private void pickOption(ArrayList<Option> opt) {
+        Scanner scanner = new Scanner(System.in);
+        String pickedOption = scanner.next();
+
+        if ("1234".contains(pickedOption)) {
+            if (opt.get(Integer.parseInt(pickedOption) - 1).isCorrect()) {
+                System.out.println("¡Respuesta Correcta!");
+                setSuccess("success");
+            } else {
+                setSuccess("failure");
             }
+        } else if ("5".equals(pickedOption)) {
+            setSuccess("withdraw");
+        } else {
+            System.out.println("Ingresa una opción válida.");
+            pickOption(opt);
         }
-        Game.gameMenu();
     }
+
+    public void setSuccess(String success) {
+        this.success = success;
+    }
+
+    public String getSuccess() {
+        return success;
+    }
+
 }

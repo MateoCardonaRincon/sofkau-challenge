@@ -6,7 +6,7 @@ package QuizGame;
  */
 public class Player {
 
-    public String nickname;
+    private String nickname;
 
     public Player(String nickname) {
         this.nickname = nickname;

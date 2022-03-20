@@ -1,6 +1,5 @@
 package QuizGame;
 
-//import java.util.ArrayList;
 import java.util.Scanner;
 
 public class QuizMain {
@@ -14,9 +13,6 @@ public class QuizMain {
         System.out.print("Nickname para la sesión: ");
         String nick = scanner.next();
         MainMenu menu = new MainMenu(nick);
-//        Question question = new Question("2+2");
-//        ArrayList<Option> opt = question.getOptions();
-//        System.out.println(opt.get(0));
     }
 
 }

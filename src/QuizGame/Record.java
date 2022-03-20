@@ -6,27 +6,45 @@ package QuizGame;
  */
 public class Record extends Player {
 
-    public String player;
-    public Game game;
-    public int score;
-    public int round;
+    private final String player;
+    private int round;
+    private int score;
 
-    public Record(String playerNickname, String gameAccessKey) {
+    public Record(String playerNickname, Game game) {
         super(playerNickname);
         this.player = playerNickname;
-        setRecord();
+        this.round = 1;
+        this.score = 0;
+        setRecord(game);
     }
 
-    private void setRecord() {
-        
-    }
+    private void setRecord(Game game) {
+        int nRounds = 2;
 
-    public int getScore() {
-        return score;
-    }
+        while (round <= nRounds) {
+            Round currentRound = new Round(round, game.getCategories().get(round - 1));
 
-    public void setScore(int score) {
-        this.score = score;
+            if ("success".equals(currentRound.getSuccess())) {
+                this.score = this.score + game.getCategories().get(round - 1).getReward().getValue();
+
+                if (round == nRounds) {
+                    System.out.printf("¡Felicitaciones, %s! Respondiste todas las preguntas correctamente\n", this.player);
+                    System.out.println("Tu puntuación final: ¡" + this.score + "!");
+                    break;
+                }
+                System.out.println("Puntuación actual: " + this.score);
+                round++;
+
+            } else if ("withdraw".equals(currentRound.getSuccess())) {
+                System.out.printf("¡%s, te has retirado con una puntuación de %d!\n", this.player, this.score);
+                break;
+            } else {
+                this.score = 0;
+                System.out.println("Fallaste. ¡Has perdido todos tus puntos!");
+                System.out.printf("%s, tu puntuación final es: %d\n", this.player, this.score);
+                break;
+            }
+        }
     }
 
 }
