@@ -35,7 +35,7 @@ public class Round {
         System.out.printf("\t(1 + enter)\t%s\n\t(2 + enter)\t%s\n\t(3 + enter)\t%s\n\t(4 + enter)\t%s\n",
                 opt.get(0).getOptionBody(), opt.get(1).getOptionBody(),
                 opt.get(2).getOptionBody(), opt.get(3).getOptionBody());
-        System.out.println("\t(5 + enter)\tRetirarse con la puntuación ancual");
+        System.out.println("\t(5 + enter)\tRetirarse con la puntuación actual");
 
         pickOption(opt);
     }
