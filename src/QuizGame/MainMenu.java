@@ -1,5 +1,8 @@
 package QuizGame;
 
+import Controllers.GameController;
+import Model.Entities.GameEntity;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -11,7 +14,7 @@ public final class MainMenu {
 
     private static ArrayList<Game> games = new ArrayList<>();
     private static String nickname;
-    private static final Scanner scanner = new Scanner(System.in);
+    private static final Scanner SCANNER = new Scanner(System.in);
 
     public MainMenu(String nickname) {
         MainMenu.nickname = nickname;
@@ -44,7 +47,7 @@ public final class MainMenu {
         System.out.println("     Crear un cuestionario\t(1 + enter)\n"
                 + "     Jugar\t\t\t(2 + enter)\n"
                 + "     Salir\t\t\t(Cualquier otra tecla + enter)");
-        String menuOption = scanner.next();
+        String menuOption = SCANNER.next();
 
         switch (menuOption) {
             case "1" ->
@@ -60,7 +63,7 @@ public final class MainMenu {
 
     private static void createNewGame() {
         System.out.println("Escribe una clave para luego entrar al cuestionario:");
-        String accessKey = scanner.next();
+        String accessKey = SCANNER.next();
         if (MainMenu.validateAccessKey(accessKey)) {
             Game thisGame = new Game(accessKey);
             if (thisGame.getCategories().size() > 0) {
@@ -75,7 +78,7 @@ public final class MainMenu {
 
     private static void playAGame() {
         System.out.println("Ingresa la clave del cuestionario a responder:");
-        String accessKey = scanner.next();
+        String accessKey = SCANNER.next();
         Game thisGame = MainMenu.getGame(accessKey);
         if (thisGame != null) {
             Record record = new Record(nickname, thisGame);
