@@ -17,14 +17,14 @@ public class OptionController {
     public static ArrayList<OptionEntity> getOption(int idQuestion) throws SQLException {
         ArrayList<OptionEntity> options = new ArrayList<>();
         try ( Connection connection = DatabaseConnection.getConnection()) {
-            String query = "SELECT * FROM option WHERE Question_idQuestion = ?";
+            String query = "SELECT * FROM answer WHERE Question_idQuestion = ?";
             PreparedStatement ps = connection.prepareStatement(query);
-            ps.setString(1, String.valueOf(idQuestion));
+            ps.setInt(1, idQuestion);
             ResultSet result = ps.executeQuery();
             while (result.next()) {
                 options.add(new OptionEntity(result.getInt(1),
                         result.getString(2),
-                        result.getBoolean(3),
+                        result.getInt(3),
                         result.getInt(4)));
             }
             connection.close();
@@ -32,15 +32,18 @@ public class OptionController {
         return options;
     }
 
-    public static void setOption(String body, boolean isCorrect, int idQuestion) throws SQLException {
+    public static void setOption(String body, int correct, int idQuestion) throws SQLException {
         try ( Connection connection = DatabaseConnection.getConnection()) {
-            String query = "INSERT INTO option (option_body, is_correct, Question_idQuestion) VALUES (?,?,?)";
+            String query = "INSERT INTO answer (option_body, isCorrect, Question_idQuestion) VALUES (?,?,?)";
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setString(1, body);
-            ps.setBoolean(2, isCorrect);
+            ps.setInt(2, correct);
             ps.setInt(3, idQuestion);
-            ps.executeQuery();
+            ps.executeUpdate();
             connection.close();
         }
+    }
+    public static void main(String[] args) throws SQLException {
+        getOption(1);
     }
 }

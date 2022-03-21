@@ -30,12 +30,27 @@ public class GameController {
         return gameList;
     }
 
+    public static int getId(String ak) throws SQLException {
+        int gameId;
+        try ( Connection connection = DatabaseConnection.getConnection()) {
+            String query = "SELECT idGame FROM game WHERE accessKey = ?";
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, ak);
+            ResultSet result = ps.executeQuery();
+            result.next();
+            gameId = result.getInt(1);
+            connection.close();
+            return gameId;
+        }
+
+    }
+
     public static void setGame(String accessKey) throws SQLException {
         try ( Connection connection = DatabaseConnection.getConnection()) {
             String query = "INSERT INTO game (accessKey) VALUES (?)";
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setString(1, accessKey);
-            ps.executeQuery();
+            ps.executeUpdate();
             connection.close();
         }
     }

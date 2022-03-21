@@ -1,5 +1,9 @@
 package QuizGame;
 
+import Controllers.CategoryController;
+import Controllers.QuestionController;
+import Model.Entities.CategoryEntity;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -7,23 +11,28 @@ import java.util.Scanner;
  *
  * @author MATEO
  */
-public class Category {
+public class Category extends CategoryEntity {
 
     private ArrayList<Question> questions = new ArrayList<>();
+    private int categoryId;
     private Reward reward;
 
-    public Category(int category) {
+    public Category(int category, int idCategory, Reward reward) throws SQLException {
+        this.categoryId = idCategory;
+        this.reward = reward;
         System.out.println("Preguntas de categoría " + category + " (Mínimo 5 preguntas)");
         setQuestions(category);
     }
 
-    private void setQuestions(int category) {
+    private void setQuestions(int category) throws SQLException {
         int minNQuestions = 2;
         Scanner scanner = new Scanner(System.in);
         while (true) {
             System.out.println("Escribe una pregunta de categoría " + category + " (Llevas "
                     + questions.size() + "):");
             String questionBody = scanner.next();
+            QuestionController.setQuestion(questionBody, categoryId);
+
             questions.add(new Question(questionBody));
             if (questions.size() >= minNQuestions) {
                 System.out.println("Llevas " + questions.size() + " preguntas, ¿deseas escribir más?");
@@ -35,19 +44,6 @@ public class Category {
                 }
             }
         }
-        setReward(category);
-    }
-
-    private void setReward(int category) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Puntos por acertar una pregunta de categoría " + category + ":");
-        String value = scanner.next();
-        try {
-            reward = new Reward(Integer.parseInt(value));
-        }
-        catch (NumberFormatException NumberFormatException) {
-            setReward(category);
-        }
 
     }
 
@@ -58,4 +54,5 @@ public class Category {
     public Reward getReward() {
         return reward;
     }
+
 }

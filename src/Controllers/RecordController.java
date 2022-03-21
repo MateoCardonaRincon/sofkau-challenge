@@ -39,7 +39,7 @@ public class RecordController {
             ps.setInt(1, score);
             ps.setInt(2, idPlayer);
             ps.setInt(3, idGame);
-            ps.executeQuery();
+            ps.executeUpdate();
             connection.close();
         }
     }

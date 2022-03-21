@@ -10,25 +10,29 @@ import java.util.Scanner;
  *
  * @author MATEO
  */
-public final class MainMenu {
+public class MainMenu {
 
     private static ArrayList<Game> games = new ArrayList<>();
-    private static String nickname;
+    private static ArrayList<GameEntity> retrivedGames;
     private static final Scanner SCANNER = new Scanner(System.in);
 
-    public MainMenu(String nickname) {
-        MainMenu.nickname = nickname;
+    public MainMenu() throws SQLException {
+        retrieveGames();
         menu();
     }
 
-    private static Game getGame(String ak) {
-        if (games.size() > 0) {
-            for (Game game : games) {
+    private static void retrieveGames() throws SQLException {
+        retrivedGames = GameController.getGame();
+    }
+
+    private static GameEntity getGame(String ak) {
+        if (retrivedGames.size() > 0) {
+            for (GameEntity game : retrivedGames) {
                 if (game.getAccessKey().equals(ak)) {
                     return game;
                 }
             }
-            System.out.println("No hay cuestionarios registrados con esa clave");
+            System.out.println("No hay cuestionarios registrados con ese identificador.");
         } else {
             System.out.println("¡Aún no hay cuestionarios creados!");
         }
@@ -36,14 +40,14 @@ public final class MainMenu {
     }
 
     private static boolean validateAccessKey(String ak) {
-        return games.stream().noneMatch(game -> (game.getAccessKey().equals(ak)));
+        return retrivedGames.stream().noneMatch(game -> (game.getAccessKey().equals(ak)));
     }
 
     private static void setGames(Game game) {
         MainMenu.games.add(game);
     }
 
-    private static void menu() {
+    private static void menu() throws SQLException {
         System.out.println("     Crear un cuestionario\t(1 + enter)\n"
                 + "     Jugar\t\t\t(2 + enter)\n"
                 + "     Salir\t\t\t(Cualquier otra tecla + enter)");
@@ -61,27 +65,30 @@ public final class MainMenu {
         }
     }
 
-    private static void createNewGame() {
-        System.out.println("Escribe una clave para luego entrar al cuestionario:");
+    private static void createNewGame() throws SQLException {
+        System.out.println("Escribe un identificador de acceso al cuestionario:");
         String accessKey = SCANNER.next();
         if (MainMenu.validateAccessKey(accessKey)) {
             Game thisGame = new Game(accessKey);
             if (thisGame.getCategories().size() > 0) {
                 setGames(thisGame);
+                retrieveGames();
             }
         } else {
-            System.out.println("La contraseña ya está en uso. Por favor usa otra.");
+            System.out.println("El identificador ya está en uso. Por favor usa otro.");
             createNewGame();
         }
         menu();
     }
 
-    private static void playAGame() {
-        System.out.println("Ingresa la clave del cuestionario a responder:");
+    private static void playAGame() throws SQLException {
+        System.out.println("Ingresa el identificador del cuestionario que deseas responder:");
         String accessKey = SCANNER.next();
-        Game thisGame = MainMenu.getGame(accessKey);
+        GameEntity thisGame = MainMenu.getGame(accessKey);
         if (thisGame != null) {
-            Record record = new Record(nickname, thisGame);
+            System.out.println("Ingresa el nombre con el que deseas participar:");
+            String nickname = SCANNER.next();
+            Record record = new Record(nickname, thisGame.idGame);
         }
         menu();
     }

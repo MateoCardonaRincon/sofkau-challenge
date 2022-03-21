@@ -34,7 +34,7 @@ public class RoundController {
             String query = "INSERT INTO round (Question_idQuestion) VALUES (?)";
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setInt(1, idQuestion);
-            ps.executeQuery();
+            ps.executeUpdate();
             connection.close();
         }
     }

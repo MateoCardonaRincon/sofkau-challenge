@@ -6,16 +6,19 @@ package Model.Entities;
  */
 public class CategoryEntity {
 
-    private int idCategory;
+    protected int idCategory;
     private int idGame;
-    private int level;
     private int idReward;
+    private int level;
 
-    public CategoryEntity(int idCategory, int idGame, int level, int idReward) {
+    public CategoryEntity(int idCategory, int idGame, int idReward, int level) {
         this.idCategory = idCategory;
         this.idGame = idGame;
-        this.level = level;
         this.idReward = idReward;
+        this.level = level;
+    }
+
+    public CategoryEntity() {
     }
 
     public int getIdCategory() {

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Model.Entities;
 
 /**
@@ -11,12 +6,15 @@ package Model.Entities;
  */
 public class GameEntity {
 
+    public int idGame;
     private String accessKey;
-    private int idGame;
 
     public GameEntity(int idGame, String accessKey) {
         this.idGame = idGame;
         this.accessKey = accessKey;
+    }
+
+    public GameEntity() {
     }
 
     public int getIdGame() {

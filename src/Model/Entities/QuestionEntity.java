@@ -6,7 +6,7 @@ package Model.Entities;
  */
 public class QuestionEntity {
 
-    private int idQuestion;
+    protected int idQuestion;
     private String questionBody;
     private int idCategory;
 
@@ -14,6 +14,9 @@ public class QuestionEntity {
         this.idQuestion = idQuestion;
         this.idCategory = idCategory;
         this.questionBody = questionBody;
+    }
+
+    public QuestionEntity() {
     }
 
     public int getIdQuestion() {
