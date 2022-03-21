@@ -5,11 +5,10 @@ Reto desarrollado en Java para el proceso de selección del Training League de d
 
 ## Configuración base de datos
 Se utilizó una base de datos relacional con MySQL
-### Configurar credenciales:
--> Editar las credenciales en el archivo src/Model/Config.java
-
 ### Montar base de datos:
 -> Importar y ejecutar el Script de SQL db/EntityRelationshipModel.sql
+### Configurar credenciales:
+-> Editar las credenciales PASSWORD y USER en el archivo src/Model/Config.java --- Los atributos SERVER, PORT y USER tienen los valores por defecto de MySQL, deben modificarse de ser necesario. No editar el atributo DB.
 
 #### Otros:
--> Conector MySQL/Java Archivo .jar -> (MySQL Connector/J versión 8.0.27 - Descargado desde https://downloads.mysql.com/archives/c-j/)
+-> MySQL Connector/J versión 8.0.27 - Descargado desde https://downloads.mysql.com/archives/c-j/)
