@@ -3,7 +3,7 @@
 Juego de preguntas y respuestas, donde se puede responder y crear cuestionarios.
 Reto desarrollado en Java para el proceso de selección del Training League de desarrollo de software de SofkaU.
 
-# Configuración base de datos
+## Configuración base de datos
 Se utilizó una base de datos relacional con MySQL
 ### Configurar credenciales:
 -> Editar las credenciales en el archivo src/Model/Config.java
