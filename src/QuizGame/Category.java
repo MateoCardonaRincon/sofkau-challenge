@@ -25,7 +25,7 @@ public class Category extends CategoryEntity {
     }
 
     private void setQuestions(int category) throws SQLException {
-        int minNQuestions = 2;
+        int minNQuestions = 5;
         Scanner scanner = new Scanner(System.in);
         while (true) {
             System.out.println("Escribe una pregunta de categoría " + category + " (Llevas "

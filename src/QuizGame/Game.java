@@ -26,7 +26,7 @@ public final class Game extends GameEntity {
     }
 
     public void gameMenu() throws SQLException {
-        int nCategories = 2;
+        int nCategories = 5;
         Scanner scanner = new Scanner(System.in);
         System.out.println("    Crear preguntas\t\t(1 + enter)");
         System.out.println("    Regresar al menú principal\t(Cualquier otra tecla + enter)");
