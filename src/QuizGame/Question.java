@@ -30,7 +30,7 @@ public class Question extends QuestionEntity {
 
         for (int i = 2; i <= 4; i++) {
             System.out.printf("Escribe una respuesta incorrecta (%d/4):\n", i);
-            option = scanner.next();
+            option = scanner.nextLine();
             OPTIONS.add(new Option(option, 0, questionId));
         }
     }

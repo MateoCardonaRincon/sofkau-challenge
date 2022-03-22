@@ -17,6 +17,9 @@ public class GameController {
     public static ArrayList<GameEntity> getGame() throws SQLException {
         ArrayList<GameEntity> gameList;
         try ( Connection connection = DatabaseConnection.getConnection()) {
+            if (connection == null) {
+                System.exit(0);
+            }
             String query = "SELECT * FROM game";
             PreparedStatement ps = connection.prepareStatement(query);
             ResultSet result = ps.executeQuery();

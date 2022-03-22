@@ -1,6 +1,7 @@
 package QuizGame;
 
 import Controllers.GameController;
+import Controllers.RecordController;
 import Model.Entities.GameEntity;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -12,7 +13,6 @@ import java.util.Scanner;
  */
 public class MainMenu {
 
-    private static ArrayList<Game> games = new ArrayList<>();
     private static ArrayList<GameEntity> retrivedGames;
     private static final Scanner SCANNER = new Scanner(System.in);
 
@@ -21,10 +21,12 @@ public class MainMenu {
         menu();
     }
 
+    //Carga los juegos almacenados en la base de datos
     private static void retrieveGames() throws SQLException {
         retrivedGames = GameController.getGame();
     }
 
+    //Devuelve un objeto de tipo GameEntity, si existe
     private static GameEntity getGame(String ak) {
         if (retrivedGames.size() > 0) {
             for (GameEntity game : retrivedGames) {
@@ -32,32 +34,24 @@ public class MainMenu {
                     return game;
                 }
             }
-            System.out.println("No hay cuestionarios registrados con ese identificador.");
-        } else {
-            System.out.println("¡Aún no hay cuestionarios creados!");
         }
         return null;
-    }
-
-    private static boolean validateAccessKey(String ak) {
-        return retrivedGames.stream().noneMatch(game -> (game.getAccessKey().equals(ak)));
-    }
-
-    private static void setGames(Game game) {
-        MainMenu.games.add(game);
     }
 
     private static void menu() throws SQLException {
         System.out.println("     Crear un cuestionario\t(1 + enter)\n"
                 + "     Jugar\t\t\t(2 + enter)\n"
+                + "     Ver historial\t\t(3 + enter)\n"
                 + "     Salir\t\t\t(Cualquier otra tecla + enter)");
-        String menuOption = SCANNER.next();
+        String menuOption = SCANNER.nextLine();
 
         switch (menuOption) {
             case "1" ->
                 createNewGame();
             case "2" ->
                 playAGame();
+            case "3" ->
+                showRecords();
             default -> {
                 System.out.println("¡Hasta pronto!");
                 System.exit(0);
@@ -67,15 +61,14 @@ public class MainMenu {
 
     private static void createNewGame() throws SQLException {
         System.out.println("Escribe un identificador de acceso al cuestionario:");
-        String accessKey = SCANNER.next();
-        if (MainMenu.validateAccessKey(accessKey)) {
+        String accessKey = SCANNER.nextLine();
+        if (MainMenu.getGame(accessKey) == null) {
             Game thisGame = new Game(accessKey);
             if (thisGame.getCategories().size() > 0) {
-                setGames(thisGame);
                 retrieveGames();
             }
         } else {
-            System.out.println("El identificador ya está en uso. Por favor usa otro.");
+            System.out.println("El identificador '" + accessKey + "' ya existe. Por favor usa otro.");
             createNewGame();
         }
         menu();
@@ -83,12 +76,36 @@ public class MainMenu {
 
     private static void playAGame() throws SQLException {
         System.out.println("Ingresa el identificador del cuestionario que deseas responder:");
-        String accessKey = SCANNER.next();
+        String accessKey = SCANNER.nextLine();
         GameEntity thisGame = MainMenu.getGame(accessKey);
         if (thisGame != null) {
             System.out.println("Ingresa el nombre con el que deseas participar:");
-            String nickname = SCANNER.next();
-            Record record = new Record(nickname, thisGame.idGame);
+            String nickname = SCANNER.nextLine();
+            Record record = new Record(nickname, thisGame.getIdGame());
+        } else {
+            System.out.println("No hay juegos registrados con ese identificador.");
+        }
+        menu();
+    }
+
+    private static void showRecords() throws SQLException {
+        System.out.println("Identificador del cuestionario del cual desea ver el historial:");
+        String accessKey = SCANNER.nextLine();
+        GameEntity thisGame = MainMenu.getGame(accessKey);
+        if (thisGame != null) {
+            int gameId = GameController.getId(accessKey);
+            ArrayList<Object[]> records = RecordController.getRecords(gameId);
+            System.out.println("Histórico (cuestionario con identificador: '" + accessKey + "')");
+            if (records.size() > 0) {
+                for (Object[] record : records) {
+                    System.out.println(record[1] + " --- " + record[0]);
+                }
+            } else {
+                System.out.println("¡Nadie ha respondido este cuestionario!");
+            }
+
+        } else {
+            System.out.println("No hay juegos registrados con ese identificador.");
         }
         menu();
     }

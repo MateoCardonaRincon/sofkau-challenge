@@ -6,7 +6,7 @@ package Model.Entities;
  */
 public class GameEntity {
 
-    public int idGame;
+    private int idGame;
     private String accessKey;
 
     public GameEntity(int idGame, String accessKey) {

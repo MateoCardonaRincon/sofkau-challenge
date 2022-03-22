@@ -6,7 +6,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 
 /**
  *
@@ -26,6 +25,22 @@ public class RewardController {
             connection.close();
         }
         return reward;
+    }
+
+    public static RewardEntity getRewardbyValue(int value) throws SQLException {
+        RewardEntity reward;
+        try ( Connection connection = DatabaseConnection.getConnection()) {
+            String query = "SELECT * FROM reward WHERE value = ?";
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, String.valueOf(value));
+            ResultSet result = ps.executeQuery();
+            if (result.next()) {
+                reward = new RewardEntity(result.getInt(1), result.getInt(2));
+                return reward;
+            }
+            connection.close();
+        }
+        return null;
     }
 
     public static int getId(int value) throws SQLException {

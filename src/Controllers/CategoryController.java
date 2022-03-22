@@ -17,7 +17,7 @@ public class CategoryController {
     public static ArrayList<CategoryEntity> getCategory(int idGame) throws SQLException {
         ArrayList<CategoryEntity> categories = new ArrayList<>();
         try ( Connection connection = DatabaseConnection.getConnection()) {
-            String query = "SELECT * FROM category WHERE Game_idGame = ?";
+            String query = "SELECT * FROM category WHERE Game_idGame = ? ORDER BY level";
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setInt(1, idGame);
             ResultSet result = ps.executeQuery();

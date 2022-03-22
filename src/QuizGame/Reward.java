@@ -10,17 +10,33 @@ import java.sql.SQLException;
 public class Reward {
 
     private int value;
+    private int idReward;
 
     public Reward(int value) throws SQLException {
         this.value = value;
-        RewardController.setReward(value);
+        storeValidate(value);
+        this.idReward = RewardController.getId(getValue());
     }
 
-    public int getValue() {
+    private void storeValidate(int value) throws SQLException {
+        if (RewardController.getRewardbyValue(value) == null) {
+            RewardController.setReward(value);
+        }
+    }
+
+    public final int getValue() {
         return value;
     }
 
     public void setValue(int value) {
         this.value = value;
+    }
+
+    public int getIdReward() {
+        return idReward;
+    }
+
+    public void setIdReward(int idReward) {
+        this.idReward = idReward;
     }
 }

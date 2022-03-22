@@ -34,7 +34,7 @@ public class QuestionController {
     public static int getId(String body) throws SQLException {
         int questionId;
         try ( Connection connection = DatabaseConnection.getConnection()) {
-            String query = "SELECT idQuestion FROM question WHERE question_body = ?";
+            String query = "SELECT max(idQuestion) FROM question WHERE question_body = ?";
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setString(1, body);
             ResultSet result = ps.executeQuery();
@@ -55,6 +55,5 @@ public class QuestionController {
             ps.executeUpdate();
             connection.close();
         }
-        System.out.println("PREGUNTA GUARDADA");
     }
 }

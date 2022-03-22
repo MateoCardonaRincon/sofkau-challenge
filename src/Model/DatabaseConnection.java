@@ -24,7 +24,14 @@ public class DatabaseConnection {
         ds.setUser(USER);
         ds.setPassword(PASSWORD);
 
-        Connection connection = ds.getConnection();
-        return connection;
+        try {
+            Connection connection = ds.getConnection();
+            return connection;
+        }
+        catch (SQLException e) {
+            System.out.println("No se ha logrado la conexión a la base de datos.\n"
+                    + "Verifique las credenciales en el archivo src/Model/Config.java");
+        }
+        return null;
     }
 }
