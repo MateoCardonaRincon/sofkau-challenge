@@ -98,7 +98,7 @@ public class MainMenu {
             System.out.println("Histórico (cuestionario con identificador: '" + accessKey + "')");
             if (records.size() > 0) {
                 for (Object[] record : records) {
-                    System.out.println(record[1] + " --- " + record[0]);
+                    System.out.println(record[0] + "\t---\t" + record[1]);
                 }
             } else {
                 System.out.println("¡Nadie ha respondido este cuestionario!");

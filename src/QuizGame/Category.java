@@ -38,7 +38,7 @@ public class Category {
     }
 
     private void setQuestions(int category) throws SQLException {
-        int minNQuestions = 3;
+        int minNQuestions = 5;
         CategoryController.setCategory(idGame, idReward, category);
         int idCategory = CategoryController.getId(getIdGame(), category);
 
