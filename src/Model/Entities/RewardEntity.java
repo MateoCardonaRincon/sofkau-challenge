@@ -6,7 +6,7 @@ package Model.Entities;
  */
 public class RewardEntity {
 
-    private int idReward;
+    protected int idReward;
     private int value;
 
     public RewardEntity(int idReward, int value) {

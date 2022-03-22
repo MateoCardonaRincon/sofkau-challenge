@@ -1,18 +1,16 @@
 package QuizGame;
 
-import java.util.Scanner;
+import java.sql.SQLException;
 
 public class QuizMain {
 
     /**
      * @param args the command line arguments
+     * @throws java.sql.SQLException
      */
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("################# Bienvenid@ a Preguntas y Respuesta #################\n");
-        System.out.print("Nickname para la sesión: ");
-        String nick = scanner.next();
-        MainMenu menu = new MainMenu(nick);
+    public static void main(String[] args) throws SQLException {
+        System.out.println("################# Preguntas y Respuesta #################\n");
+        MainMenu mainMenu = new MainMenu();
     }
 
 }

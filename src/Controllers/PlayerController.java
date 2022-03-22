@@ -26,13 +26,32 @@ public class PlayerController {
         return player;
     }
 
+    public static int getId(String nick) throws SQLException {
+        int questionId;
+        try ( Connection connection = DatabaseConnection.getConnection()) {
+            String query = "SELECT idPlayer FROM player WHERE nickname = ?";
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, nick);
+            ResultSet result = ps.executeQuery();
+            result.next();
+            questionId = result.getInt(1);
+            connection.close();
+            return questionId;
+        }
+
+    }
+
     public static void setPlayer(String nickname) throws SQLException {
         try ( Connection connection = DatabaseConnection.getConnection()) {
             String query = "INSERT INTO player (nickname) VALUES (?)";
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setString(1, nickname);
-            ps.executeQuery();
+            ps.executeUpdate();
             connection.close();
         }
+    }
+
+    public static void setRecord(String playerNickname) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

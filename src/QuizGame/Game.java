@@ -1,5 +1,7 @@
 package QuizGame;
 
+import Controllers.GameController;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -7,19 +9,21 @@ import java.util.Scanner;
  *
  * @author MATEO
  */
-public final class Game {
+public class Game {
 
-    private String accessKey;
-    private int category;
     private final ArrayList<Category> CATEGORIES = new ArrayList<>();
+    private String accessKey;
+    private int idGame;
 
-    public Game(String ak) {
-        category = 1;
+    public Game(String ak) throws SQLException {
         this.accessKey = ak;
         gameMenu();
     }
 
-    public void gameMenu() {
+    public Game() {
+    }
+
+    private void gameMenu() throws SQLException {
         int nCategories = 2;
         Scanner scanner = new Scanner(System.in);
         System.out.println("    Crear preguntas\t\t(1 + enter)");
@@ -27,12 +31,21 @@ public final class Game {
         String menuOption = scanner.next();
 
         if ("1".equals(menuOption)) {
-            while (category <= nCategories) {
-                CATEGORIES.add(new Category(category));
-                category++;
+            GameController.setGame(this.accessKey);
+            setIdGame(GameController.getId(this.accessKey));
+            for (int cat = 1; cat <= nCategories; cat++) {
+                CATEGORIES.add(new Category(cat, idGame));
             }
-            System.out.println("¡Tu cuestionario ha sido creado! (Acceso: " + this.accessKey + ")");
+            System.out.println("¡Tu cuestionario ha sido creado! (Identificador de acceso: " + this.accessKey + ")");
         }
+    }
+
+    public void setIdGame(int idGame) {
+        this.idGame = idGame;
+    }
+
+    public int getIdGame() {
+        return idGame;
     }
 
     public String getAccessKey() {
@@ -46,4 +59,5 @@ public final class Game {
     public ArrayList<Category> getCategories() {
         return CATEGORIES;
     }
+
 }

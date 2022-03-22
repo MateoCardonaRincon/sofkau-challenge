@@ -1,50 +1,73 @@
 package QuizGame;
 
+import Controllers.CategoryController;
+import Controllers.PlayerController;
+import Controllers.RecordController;
+import Controllers.RewardController;
+import Model.Entities.CategoryEntity;
+import Model.Entities.RewardEntity;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 /**
  *
  * @author MATEO
  */
 public class Record extends Player {
 
-    private final String PLAYER;
+    private String nickname;
     private int round;
     private int score;
+    private int gameId;
 
-    public Record(String playerNickname, Game game) {
+    public Record(String playerNickname, int idGame) throws SQLException {
         super(playerNickname);
-        this.PLAYER = playerNickname;
+        this.nickname = playerNickname;
         this.round = 1;
         this.score = 0;
-        setRecord(game);
+        this.gameId = idGame;
+        setRecord(idGame);
     }
 
-    private void setRecord(Game game) {
-        int nRounds = 2;
+    private void setRecord(int idGame) throws SQLException {
+        int nRounds = 3;
+        ArrayList<CategoryEntity> categories = CategoryController.getCategory(idGame);
 
         while (round <= nRounds) {
-            Round currentRound = new Round(round, game.getCategories().get(round - 1));
+
+            Round currentRound = new Round(round, categories.get(round - 1));
 
             if ("success".equals(currentRound.getSuccess())) {
-                this.score = this.score + game.getCategories().get(round - 1).getReward().getValue();
-
+                RewardEntity reward = RewardController.getReward(categories.get(round - 1).getIdReward());
+                setScore(getScore() + reward.getValue());
+                System.out.println("Puntuación actual: " + getScore());
+                round++;
                 if (round == nRounds) {
-                    System.out.printf("¡Felicitaciones, %s! Respondiste todas las preguntas correctamente\n", this.PLAYER);
-                    System.out.println("Tu puntuación final: ¡" + this.score + "!");
+                    System.out.printf("¡%s, respondiste todas las preguntas correctamente\n", this.nickname+"!");
                     break;
                 }
-                System.out.println("Puntuación actual: " + this.score);
-                round++;
 
             } else if ("withdraw".equals(currentRound.getSuccess())) {
-                System.out.printf("¡%s, te has retirado con una puntuación de %d!\n", this.PLAYER, this.score);
+                System.out.printf("¡%s, te has retirado con una puntuación de %d!\n", nickname, getScore());
                 break;
             } else {
-                this.score = 0;
+                setScore(0);
                 System.out.println("Fallaste. ¡Has perdido todos tus puntos!");
-                System.out.printf("%s, tu puntuación final es: %d\n", this.PLAYER, this.score);
+                System.out.printf("%s, tu puntuación final es: %d\n", nickname, getScore());
                 break;
             }
         }
+        PlayerController.setPlayer(nickname);
+        int playerId = PlayerController.getId(nickname);
+        RecordController.setRecord(getScore(), playerId, gameId);
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 
 }

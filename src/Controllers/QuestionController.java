@@ -31,13 +31,28 @@ public class QuestionController {
         return questions;
     }
 
+    public static int getId(String body) throws SQLException {
+        int questionId;
+        try ( Connection connection = DatabaseConnection.getConnection()) {
+            String query = "SELECT max(idQuestion) FROM question WHERE question_body = ?";
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, body);
+            ResultSet result = ps.executeQuery();
+            result.next();
+            questionId = result.getInt(1);
+            connection.close();
+            return questionId;
+        }
+
+    }
+
     public static void setQuestion(String body, int idCategory) throws SQLException {
         try ( Connection connection = DatabaseConnection.getConnection()) {
             String query = "INSERT INTO question (question_body, Category_idCategory) VALUES (?,?)";
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setString(1, body);
             ps.setInt(2, idCategory);
-            ps.executeQuery();
+            ps.executeUpdate();
             connection.close();
         }
     }

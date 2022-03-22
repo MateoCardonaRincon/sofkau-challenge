@@ -7,15 +7,18 @@ package Model.Entities;
 public class OptionEntity {
 
     private int idOption;
-    private boolean correct;
-    private String optonBody;
+    private int correct;
+    private String optionBody;
     private int idQuestion;
 
-    public OptionEntity(int idOption,  String optonBody, boolean correct, int idQuestion) {
+    public OptionEntity(int idOption, String optionBody, int correct, int idQuestion) {
         this.idOption = idOption;
         this.idQuestion = idQuestion;
-        this.optonBody = optonBody;
+        this.optionBody = optionBody;
         this.correct = correct;
+    }
+
+    public OptionEntity() {
     }
 
     public int getIdOption() {
@@ -34,19 +37,19 @@ public class OptionEntity {
         this.idQuestion = idQuestion;
     }
 
-    public String getOptonBody() {
-        return optonBody;
+    public String getOptionBody() {
+        return optionBody;
     }
 
-    public void setOptonBody(String optonBody) {
-        this.optonBody = optonBody;
+    public void setOptionBody(String optionBody) {
+        this.optionBody = optionBody;
     }
 
-    public boolean isCorrect() {
+    public int getCorrect() {
         return correct;
     }
 
-    public void setCorrect(boolean correct) {
+    public void setCorrect(int correct) {
         this.correct = correct;
     }
 
