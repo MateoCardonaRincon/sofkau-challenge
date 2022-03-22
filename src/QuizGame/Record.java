@@ -30,22 +30,21 @@ public class Record extends Player {
     }
 
     private void setRecord(int idGame) throws SQLException {
-        int nRounds = 3;
+        int nRounds = 5;
         ArrayList<CategoryEntity> categories = CategoryController.getCategory(idGame);
-
         while (round <= nRounds) {
-
             Round currentRound = new Round(round, categories.get(round - 1));
 
             if ("success".equals(currentRound.getSuccess())) {
                 RewardEntity reward = RewardController.getReward(categories.get(round - 1).getIdReward());
                 setScore(getScore() + reward.getValue());
                 System.out.println("Puntuación actual: " + getScore());
-                round++;
+
                 if (round == nRounds) {
-                    System.out.printf("¡%s, respondiste todas las preguntas correctamente\n", this.nickname+"!");
+                    System.out.printf("¡%s, respondiste todas las preguntas correctamente\n", this.nickname + "!");
                     break;
                 }
+                round++;
 
             } else if ("withdraw".equals(currentRound.getSuccess())) {
                 System.out.printf("¡%s, te has retirado con una puntuación de %d!\n", nickname, getScore());
